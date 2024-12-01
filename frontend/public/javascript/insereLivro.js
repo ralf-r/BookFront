@@ -13,6 +13,7 @@ onload = () => {
             headers: { 'Content-Type': 'application/json' }
         })
             .then(response => {
+            console.log(response);
             if (response.ok) {
                 document.getElementById('mensagem').innerHTML = 'Dados inseridos com sucesso';
             }
