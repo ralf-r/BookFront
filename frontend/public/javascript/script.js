@@ -1,29 +1,43 @@
 "use strict";
 window.onload = function () {
-    var _a;
     // Exibe a lista de livros ao carregar a página
     exibeListaDeLivros();
     // Adiciona evento de clique no botão 'insere'
-    (_a = document.getElementById('insere')) === null || _a === void 0 ? void 0 : _a.addEventListener('click', evento => {
-        location.href = 'insereLivro.html'; // Redireciona para a página de inserção de livro
-    });
+    const insereButton = document.getElementById('insere');
+    if (insereButton) {
+        insereButton.addEventListener('click', evento => {
+            location.href = 'insereLivro.html'; // Redireciona para a página de inserção de livro
+        });
+    }
 };
 function exibeListaDeLivros() {
     fetch(backendAddress + "livros/lista/")
         .then(response => response.json())
         .then(livros => {
-        let campos = ['id', 'titulo', 'autor', 'categoria', 'capa', 'sinopse'];
-        let tbody = document.getElementById('idtbody');
+        const campos = ['id', 'titulo', 'autor', 'categoria', 'capa', 'sinopse'];
+        const tbody = document.getElementById('idtbody');
         tbody.innerHTML = ""; // Limpa o conteúdo anterior da tabela
         // Preenche a tabela com os livros
         for (let livro of livros) {
             let tr = document.createElement('tr');
-            for (let i = 0; i < campos.length; i++) {
+            // Preenche cada célula com os dados do livro
+            campos.forEach((campo, i) => {
                 let td = document.createElement('td');
+                let href = document.createElement('a');
+                href.setAttribute('href', 'update.html?id=' + livro['id']);
                 let texto = document.createTextNode(livro[campos[i]]);
-                td.appendChild(texto);
+                href.appendChild(texto);
+                td.appendChild(href);
                 tr.appendChild(td);
-            }
+            });
+            // Adiciona a coluna "Ação" com o link de atualização
+            let tdAção = document.createElement('td');
+            let linkAtualiza = document.createElement('a');
+            linkAtualiza.setAttribute('href', `update.html?id=${livro.id}`);
+            linkAtualiza.textContent = 'Atualiza';
+            tdAção.appendChild(linkAtualiza);
+            tr.appendChild(tdAção);
+            // Adiciona a linha à tabela
             tbody.appendChild(tr);
         }
     })

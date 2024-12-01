@@ -3,28 +3,46 @@ window.onload = function () {
     exibeListaDeLivros();
 
     // Adiciona evento de clique no botão 'insere'
-    document.getElementById('insere')?.addEventListener('click', evento => {
-        location.href = 'insereLivro.html';  // Redireciona para a página de inserção de livro
-    });
+    const insereButton = document.getElementById('insere');
+    if (insereButton) {
+        insereButton.addEventListener('click', evento => {
+            location.href = 'insereLivro.html';  // Redireciona para a página de inserção de livro
+        });
+    }
 };
 
 function exibeListaDeLivros() {
     fetch(backendAddress + "livros/lista/")
         .then(response => response.json())
         .then(livros => {
-            let campos = ['id', 'titulo', 'autor', 'categoria', 'capa', 'sinopse'];
-            let tbody = document.getElementById('idtbody') as HTMLTableSectionElement;
+            const campos = ['id', 'titulo', 'autor', 'categoria', 'capa', 'sinopse'];
+            const tbody = document.getElementById('idtbody') as HTMLTableSectionElement;
             tbody.innerHTML = ""; // Limpa o conteúdo anterior da tabela
 
             // Preenche a tabela com os livros
             for (let livro of livros) {
                 let tr = document.createElement('tr') as HTMLTableRowElement;
-                for (let i = 0; i < campos.length; i++) {
+
+                // Preenche cada célula com os dados do livro
+                campos.forEach((campo, i) => {
                     let td = document.createElement('td') as HTMLTableCellElement;
+                    let href = document.createElement('a') as HTMLAnchorElement;
+                    href.setAttribute('href', 'update.html?id=' + livro['id']);
                     let texto = document.createTextNode(livro[campos[i]]) as Text;
-                    td.appendChild(texto);
+                    href.appendChild(texto);
+                    td.appendChild(href);
                     tr.appendChild(td);
-                }
+                });
+
+                // Adiciona a coluna "Ação" com o link de atualização
+                let tdAção = document.createElement('td') as HTMLTableCellElement;
+                let linkAtualiza = document.createElement('a') as HTMLAnchorElement;
+                linkAtualiza.setAttribute('href', `update.html?id=${livro.id}`);
+                linkAtualiza.textContent = 'Atualiza';
+                tdAção.appendChild(linkAtualiza);
+                tr.appendChild(tdAção);
+
+                // Adiciona a linha à tabela
                 tbody.appendChild(tr);
             }
         })
