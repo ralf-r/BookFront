@@ -6,47 +6,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Insere Livro</title>
     <script src="javascript/script.js"></script>
-    <script src="javascript/insereLivro.js"></script>
+    <script src="javascript/update.js"></script>
     <script src="javascript/constantes.js"></script>
 </head>
 
 <body>
-    <iframe src="cabecalho.html" frameborder="0" width="100%" height="50"></iframe>
-    <h1>Insere Livro</h1>
-    <form id="newLivroForm">
-        <table>
-            <tbody>
-                <tr>
-                    <td style="text-align: right;">Titulo:</td>
-                    <td><input type="text" name="titulo" id="titulo"></td>
-                </tr>
-                <tr>
-                    <td style="text-align: right;">Autor:</td>
-                    <td><input type="text" name="autor" id="autor"></td>
-                </tr> <!-- Fechamento da tag <tr> do Autor -->
-                <tr>
-                    <td style="text-align: right;">Categoria:</td>
-                    <td><input type="text" name="categoria" id="categoria"></td>
-                </tr>
-                <tr>
-                    <td style="text-align: right;">
-                        <label for="capa">Capa:</label> <!-- Adicionando um label para o campo de Capa -->
-                    </td>
-                    <td><input type="file" name="capa" id="capa"></td>
-                </tr>
-                <tr>
-                    <td style="text-align: right;">
-                        <label for="sinopse">Sinopse:</label> <!-- Label para o campo de sinopse -->
-                    </td>
-                    <td>
-                        <textarea id="sinopse" name="sinopse" rows="4" cols="50"></textarea>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <button id="insere" name="insere" value="Insere">Insere</button>
-    </form>
-    <div id="mensagem"></div>
+    <header>
+        <iframe src="cabecalho.html" frameborder="0" width="100%" height="50"></iframe>
+    </header>
+
+    <main>
+        <h1>Insere Livro</h1>
+        <form id="newLivroForm" method="POST" action="seu_backend_aqui">
+            <table>
+                <tbody>
+                    <tr>
+                        <td style="text-align: right;">Título:</td>
+                        <td><input type="text" name="titulo" id="titulo" required></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;">Autor:</td>
+                        <td><input type="text" name="autor" id="autor" required></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;">Categoria:</td>
+                        <td><input type="text" name="categoria" id="categoria" required></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;">
+                            <label for="capa">Capa:</label>
+                        </td>
+                        <td><input type="file" name="capa" id="capa" accept="image/*" required></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;">
+                            <label for="sinopse">Sinopse:</label>
+                        </td>
+                        <td>
+                            <textarea id="sinopse" name="sinopse" rows="4" cols="50" required></textarea>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <button type="submit" id="insere" name="insere" value="Insere">Insere</button>
+        </form>
+        <div id="mensagem"></div>
+    </main>
 </body>
 
 </html>
