@@ -1,26 +1,74 @@
 "use strict";
-onload = () => {
+window.onload = () => {
     document.getElementById('insere').addEventListener('click', evento => {
         evento.preventDefault();
-        const elements = document.getElementById('newLivroForm').elements;
-        let data = {};
+        // Obter os elementos do formulário
+        const form = document.getElementById('newLivroForm');
+        const elements = form.elements;
+        let data = {}; // Agora suporta File para upload de arquivos
+        // Coletar os dados do formulário
         for (let i = 0; i < elements.length; i++) {
             const element = elements[i];
-            data[element.name] = element.value;
+            // Verificar se o campo é do tipo 'file'
+            if (element instanceof HTMLInputElement && element.type === 'file' && element.files) {
+                if (element.files.length > 0) {
+                    data[element.name] = element.files[0]; // Adicionar o arquivo
+                }
+            }
+            else if (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement) {
+                // Adicionar o valor do campo de texto ou textarea
+                data[element.name] = element.value;
+            }
         }
-        fetch(backendAddress + "livros/livro/", {
-            method: 'POST', body: JSON.stringify(data),
-            headers: { 'Content-Type': 'application/json' }
-        })
-            .then(response => {
-            console.log(response);
-            if (response.ok) {
-                document.getElementById('mensagem').innerHTML = 'Dados inseridos com sucesso';
+        // Enviar os dados com o fetch
+        const url = backendAddress + "livros/livro/";
+        // Verifique se você está enviando arquivos ou dados simples
+        const isFormData = Object.values(data).some(value => value instanceof File);
+        // Caso haja arquivos, use FormData para enviar
+        if (isFormData) {
+            const formData = new FormData();
+            for (const key in data) {
+                formData.append(key, data[key] instanceof File ? data[key] : data[key]);
             }
-            else {
-                document.getElementById('mensagem').innerHTML = 'Dados inseridos com erro';
-            }
-        })
-            .catch(error => { console.log(error); });
+            fetch(url, {
+                method: 'POST',
+                body: formData, // Enviar como FormData, não JSON
+                // NÃO defina o 'Content-Type' manualmente, o navegador faz isso para você
+            })
+                .then(response => {
+                console.log(response);
+                if (response.ok) {
+                    document.getElementById('mensagem').innerHTML = 'Dados inseridos com sucesso';
+                }
+                else {
+                    document.getElementById('mensagem').innerHTML = 'Dados inseridos com erro';
+                }
+            })
+                .catch(error => {
+                console.error('Erro:', error);
+                document.getElementById('mensagem').innerHTML = 'Erro ao enviar os dados';
+            });
+        }
+        else {
+            // Caso não haja arquivos, envie os dados como JSON
+            fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            })
+                .then(response => {
+                console.log(response);
+                if (response.ok) {
+                    document.getElementById('mensagem').innerHTML = 'Dados inseridos com sucesso';
+                }
+                else {
+                    document.getElementById('mensagem').innerHTML = 'Dados inseridos com erro';
+                }
+            })
+                .catch(error => {
+                console.error('Erro:', error);
+                document.getElementById('mensagem').innerHTML = 'Erro ao enviar os dados';
+            });
+        }
     });
 };
