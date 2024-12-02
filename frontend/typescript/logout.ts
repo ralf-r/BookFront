@@ -1,3 +1,8 @@
+/**
+* Logout
+*  
+* @param evento evento que aconteceu para essa funcao. 
+*/
 window.onload = (evento) => {
     // Define o prefixo para o token
     const tokenKeyword = 'Token '; // Adiciona o espaço após "Token"

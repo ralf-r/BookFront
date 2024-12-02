@@ -1,3 +1,8 @@
+/**
+* Update
+*  
+* @param void 
+*/
 window.onload = () => {
     // Carrega os dados do banco de dados e preenche o formulário
     const urlParams = new URLSearchParams(window.location.search);

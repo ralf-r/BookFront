@@ -1,3 +1,8 @@
+/**
+* liga as funcoes de inserir e remover aos botoes
+*  
+* @param void 
+*/
 window.onload = function () {
     // Exibe a lista de livros ao carregar a página
     exibeListaDeLivros();
@@ -14,6 +19,13 @@ window.onload = function () {
         removeButton.addEventListener('click', apagaLivro);  // Passa a função apagaLivro para lidar com a exclusão
     }
 };
+
+
+/**
+* exibira lista de livros
+*  
+* @param void 
+*/
 
 function exibeListaDeLivros() {
     fetch(backendAddress + "livros/lista/")
@@ -66,6 +78,11 @@ function exibeListaDeLivros() {
         });
 }
 
+/**
+* apagaLivro
+*  
+* @param evento evento que aconteceu para essa funcao. 
+*/
 let apagaLivro = (evento: Event) => {
     evento.preventDefault();
     const checkboxes = document.querySelectorAll<HTMLInputElement>(
