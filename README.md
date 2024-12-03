@@ -2,7 +2,15 @@
 Repositório Frontend da aplicação Booklyst por Rafael Feliciano e Lucas Ebrenz.
 
 backend desse front end -> (https://github.com/MirandaWopps/BookLyst/tree/novo)
-Segue explicação do que foi feito. Ele está em imagem docker(https://hub.docker.com/repository/docker/miyaaaa/bookfront/general). As instruções para rodar ele estão no readme do backend. 
+Segue explicação do que foi feito. Ele está em imagem docker(https://hub.docker.com/repository/docker/miyaaaa/bookfront/general). 
+Instalação:
+
+docker pull miyaaaa/bookfront
+
+docker run -d -p 8080:8080 miyaaaa/bookfront
+
+
+
 
 Existe a página home e da página home é possível logar,registrar, ver livros, acessar botão para inserir livros que leva para uma pagina com formulário para inserir livros.
 
